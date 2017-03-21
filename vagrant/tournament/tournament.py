@@ -17,6 +17,8 @@ def deleteMatches():
     cursor = conn.cursor()
     cursor.execute(
         "DELETE FROM matches")
+    cursor.execute(
+        "UPDATE players SET matchcount = 0, wins = 0, losses = 0")
     conn.commit()
     conn.close()
 
@@ -37,8 +39,7 @@ def countPlayers():
     cursor.execute(
         "SELECT COUNT(*) FROM players")
     results = cursor.fetchall()
-    results = results[0]
-    results = results[0]
+    results = results[0][0]
     return results
     conn.close()
 
@@ -72,6 +73,15 @@ def playerStandings():
         wins: the number of matches the player has won
         matches: the number of matches the player has played
     """
+    conn = connect()
+    cursor = conn.cursor()
+    cursor.execute(
+        "SELECT * FROM players ORDER BY wins DESC")
+    results = cursor.fetchall()
+    standings_list = []
+    for row in results:
+        standings_list.append([row[0],row[1],row[2],row[4]])
+    return standings_list
 
 
 def reportMatch(winner, loser):
@@ -81,7 +91,17 @@ def reportMatch(winner, loser):
       winner:  the id number of the player who won
       loser:  the id number of the player who lost
     """
- 
+    conn = connect()
+    cursor = conn.cursor()
+    cursor.execute(
+        "UPDATE players SET wins = wins+1, matchcount = matchcount+1 WHERE playerid = (%s)",
+        (winner,))
+    cursor.execute(
+        "UPDATE players SET losses = losses+1, matchcount = matchcount+1 WHERE playerid = (%s)",
+        (loser,))
+
+    conn.commit()
+    conn.close()
  
 def swissPairings():
     """Returns a list of pairs of players for the next round of a match.
@@ -98,5 +118,11 @@ def swissPairings():
         id2: the second player's unique id
         name2: the second player's name
     """
+    conn = connect()
+    cursor = conn.cursor()
+    cursor.execute(
+        "SELECT * FROM players ORDER BY wins DESC")
+    results = cursor.fetchall()
+
 
 

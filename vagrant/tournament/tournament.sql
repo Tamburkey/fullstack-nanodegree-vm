@@ -12,21 +12,15 @@ CREATE DATABASE tournament;
 
 CREATE TABLE players (
  playerid serial PRIMARY KEY,
- name text
-);
-
-CREATE TABLE standings (
- playerid serial references players (playerid),
- wins integer,
- losses integer,
- matchcount integer
+ name text,
+ wins integer DEFAULT 0,
+ losses integer DEFAULT 0,
+ matchcount integer DEFAULT 0
 );
 
 CREATE TABLE matches (
  matchid serial,
  round integer,
- player1 serial references players (playerid),
- player2 serial references players (playerid),
  winner serial references players (playerid),
  loser serial references players (playerid)
 );
