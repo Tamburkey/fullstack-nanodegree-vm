@@ -10,7 +10,6 @@ def connect():
     """Connect to the PostgreSQL database.  Returns a database connection."""
     return psycopg2.connect("dbname=tournament")
 
-
 def deleteMatches():
     """Remove all the match records from the database."""
     conn = connect()
@@ -21,7 +20,6 @@ def deleteMatches():
         "UPDATE players SET matchcount = 0, wins = 0, losses = 0")
     conn.commit()
     conn.close()
-
 
 def deletePlayers():
     """Remove all the player records from the database."""
@@ -80,9 +78,9 @@ def playerStandings():
     results = cursor.fetchall()
     standings_list = []
     for row in results:
+        # row[0]=id, 1=name, 2=wins, 3=losses 4=matches
         standings_list.append([row[0],row[1],row[2],row[4]])
     return standings_list
-
 
 def reportMatch(winner, loser):
     """Records the outcome of a single match between two players.
@@ -123,6 +121,24 @@ def swissPairings():
     cursor.execute(
         "SELECT * FROM players ORDER BY wins DESC")
     results = cursor.fetchall()
+    pair_list1 = []
+    pair_list2 = []
+    fin_list=[]
+    i = 0
+
+    for row in results:
+        i += 1
+        if i % 2 != 0:
+            pair_list1.append([row[0], row[1]])
+        else:
+            pair_list2.append([row[0], row[1]])
+    for l in range(0,len(pair_list1)):
+        fin_list.append(pair_list1[l]+pair_list2[l])
+    return fin_list
+
+
+
+
 
 
 
