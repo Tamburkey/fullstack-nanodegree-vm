@@ -1,6 +1,6 @@
 # FSND Tournament Results Project
 
-* Set up database schema using tournament.sql.
+* Set up PostgreSQL database schema using tournament.sql.
 * Wrote client program tournament.py which is used by tournament_test.py to access the database.
 * Implemented basic swiss tournament functionality. More information on the swiss tournament can be found below.
 
