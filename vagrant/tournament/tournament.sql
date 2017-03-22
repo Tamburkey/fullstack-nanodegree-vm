@@ -11,18 +11,16 @@ CREATE DATABASE tournament;
 \c tournament;
 
 CREATE TABLE players (
- playerid serial PRIMARY KEY,
- name text,
- wins integer DEFAULT 0,
- losses integer DEFAULT 0,
- matchcount integer DEFAULT 0
+	playerid serial PRIMARY KEY,
+	name text,
+	wins integer DEFAULT 0,
+	matchcount integer DEFAULT 0
 );
 
 CREATE TABLE matches (
- matchid serial,
- round integer,
- winner serial references players (playerid),
- loser serial references players (playerid)
+	matchid serial,
+	winner serial references players (playerid),
+	loser serial references players (playerid)
 );
 
 
