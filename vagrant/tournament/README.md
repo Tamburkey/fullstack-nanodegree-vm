@@ -1,7 +1,11 @@
 # FSND Tournament Results Project
 
+* Set up database schema using tournament.sql.
+* Wrote client program tournament.py which is used by tournament_test.py to access the database.
+* Implemented basic swiss tournament functionality. More information on the swiss tournament can be found below.
+
 Full initial project instructions can be found 
-[here](https://docs.google.com/document/d/16IgOm4XprTaKxAa8w02y028oBECOoB1EI1ReddADEeY/pub?embedded=true)
+[here](https://docs.google.com/document/d/16IgOm4XprTaKxAa8w02y028oBECOoB1EI1ReddADEeY/pub?embedded=true).
 
 ## Getting started:
 
@@ -16,7 +20,7 @@ Full initial project instructions can be found
 
 ## Understand the purpose of each file
 * tournament.sql  - this file is used to set up your database schema (the table representation of your data structure).
-* tournament.py - this file is used to provide access to your database via a library of functions which can add, delete or query data in your database to another python program (a client program). Remember that when you define a function, it does not execute, it simply means the function is defined to run a specific set of instructions when called.
+* tournament.py - this file is used to provide access to your database via a library of functions which can add, delete or query data in your database to another python program (a client program).
 * tournament_test.py - this is a client program which will use your functions written in the tournament.py module. We've written this client program to test your implementation of functions in tournament.py
 
 
