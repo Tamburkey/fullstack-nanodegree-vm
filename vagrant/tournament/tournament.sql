@@ -19,8 +19,8 @@ CREATE TABLE players (
 
 CREATE TABLE matches (
 	matchid serial,
-	winner serial references players (playerid),
-	loser serial references players (playerid)
+	winner serial REFERENCES players (playerid),
+	loser serial REFERENCES players (playerid)
 );
 
 
