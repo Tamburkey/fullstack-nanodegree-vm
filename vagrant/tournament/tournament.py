@@ -20,7 +20,7 @@ def deleteMatches():
         "UPDATE players SET matchcount = 0")
     conn.commit()
     conn.close()
-    
+
 def deletePlayers():
     """Remove all the player records from the database."""
     conn = connect()
@@ -92,10 +92,10 @@ def reportMatch(winner, loser):
     conn = connect()
     cursor = conn.cursor()
     cursor.execute(
-        "UPDATE players SET matchcount = matchcount+1 WHERE playerid = (%s)",
+        "UPDATE players SET matchcount = matchcount+1 WHERE id = (%s)",
         (winner,))
     cursor.execute(
-        "UPDATE players SET matchcount = matchcount+1 WHERE playerid = (%s)",
+        "UPDATE players SET matchcount = matchcount+1 WHERE id = (%s)",
         (loser,))
     cursor.execute(
         "INSERT INTO matches (winner) VALUES (%s)",
