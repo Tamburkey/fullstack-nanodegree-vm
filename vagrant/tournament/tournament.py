@@ -17,10 +17,10 @@ def deleteMatches():
     cursor.execute(
         "DELETE FROM matches")
     cursor.execute(
-        "UPDATE players SET matchcount = 0, wins = 0")
+        "UPDATE players SET matchcount = 0")
     conn.commit()
     conn.close()
-
+    
 def deletePlayers():
     """Remove all the player records from the database."""
     conn = connect()
@@ -37,8 +37,7 @@ def countPlayers():
     cursor.execute(
         "SELECT COUNT(*) FROM players")
     results = cursor.fetchall()
-    results = results[0][0]
-    return results
+    return results[0][0]
     conn.close()
 
 def registerPlayer(name):
@@ -74,12 +73,13 @@ def playerStandings():
     conn = connect()
     cursor = conn.cursor()
     cursor.execute(
-        "SELECT * FROM players ORDER BY wins DESC")
+        "SELECT * FROM standings ORDER BY wins DESC")
+
     results = cursor.fetchall()
     standings_list = []
     for row in results:
-        # row[0]=id, 1=name, 2=wins, 3=matches
-        standings_list.append([row[0],row[1],row[2],row[3]])
+        # row[0]=name, 1=id, 2=matches, 3=wins
+        standings_list.append([row[1],row[0],row[3],row[2]])
     return standings_list
 
 def reportMatch(winner, loser):
@@ -92,14 +92,14 @@ def reportMatch(winner, loser):
     conn = connect()
     cursor = conn.cursor()
     cursor.execute(
-        "UPDATE players SET wins = wins+1, matchcount = matchcount+1 WHERE playerid = (%s)",
+        "UPDATE players SET matchcount = matchcount+1 WHERE playerid = (%s)",
         (winner,))
     cursor.execute(
         "UPDATE players SET matchcount = matchcount+1 WHERE playerid = (%s)",
         (loser,))
     cursor.execute(
-        "INSERT INTO matches (winner, loser) VALUES (%s, %s)",
-        (winner,loser))
+        "INSERT INTO matches (winner) VALUES (%s)",
+        (winner,))
 
     conn.commit()
     conn.close()
@@ -122,7 +122,7 @@ def swissPairings():
     conn = connect()
     cursor = conn.cursor()
     cursor.execute(
-        "SELECT * FROM players ORDER BY wins DESC")
+        "SELECT * FROM standings ORDER BY wins;")
     results = cursor.fetchall()
     pair_list1 = []
     pair_list2 = []
@@ -132,9 +132,9 @@ def swissPairings():
     for row in results:
         i += 1
         if i % 2 != 0:
-            pair_list1.append([row[0], row[1]])
+            pair_list1.append([row[1], row[0]])
         else:
-            pair_list2.append([row[0], row[1]])
+            pair_list2.append([row[1], row[0]])
     for l in range(0,len(pair_list1)):
         fin_list.append(pair_list1[l]+pair_list2[l])
     return fin_list

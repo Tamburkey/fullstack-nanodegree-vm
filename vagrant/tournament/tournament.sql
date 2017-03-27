@@ -13,14 +13,16 @@ CREATE DATABASE tournament;
 CREATE TABLE players (
 	playerid serial PRIMARY KEY,
 	name text,
-	wins integer DEFAULT 0,
+	--wins integer DEFAULT 0, 
 	matchcount integer DEFAULT 0
 );
 
 CREATE TABLE matches (
 	matchid serial,
-	winner serial REFERENCES players (playerid),
-	loser serial REFERENCES players (playerid)
+	winner serial REFERENCES players (playerid)
+	--loser serial REFERENCES players (playerid)
 );
+
+CREATE VIEW standings AS SELECT players.name, players.playerid, players.matchcount, count(matches.winner) as wins from players left join matches on players.playerid = matches.winner group by players.playerid;
 
 
