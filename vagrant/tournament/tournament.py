@@ -71,7 +71,7 @@ def playerStandings():
         matches: the number of matches the player has played
     """
     db, cursor = connect()
-    query = "SELECT * FROM standings ORDER BY wins DESC;"
+    query = "SELECT * FROM standings;"
     cursor.execute(query)
     results = cursor.fetchall()
     standings_list = []
@@ -108,24 +108,23 @@ def swissPairings():
         id2: the second player's unique id
         name2: the second player's name
     """
-    db, cursor = connect()
-    query = "SELECT * FROM standings ORDER BY wins;"
-    cursor.execute(query)
-    results = cursor.fetchall()
-    pair_list1 = []
-    pair_list2 = []
-    fin_list=[]
-    i = 0
-
-    for row in results:
-        i += 1
-        if i % 2 != 0:
-            pair_list1.append([row[1], row[0]])
-        else:
-            pair_list2.append([row[1], row[0]])
-    for l in range(0,len(pair_list1)):
-        fin_list.append(pair_list1[l]+pair_list2[l])
-    return fin_list
+    results = playerStandings()
+    if len(results) % 2 == 0:
+        pair_list1 = []
+        pair_list2 = []
+        fin_list=[]
+        i = 0
+        for row in results:
+            i += 1
+            if i % 2 != 0:
+                pair_list1.append([row[0], row[1]])
+            else:
+                pair_list2.append([row[0], row[1]])
+        for l in range(0,len(pair_list1)):
+            fin_list.append(pair_list1[l]+pair_list2[l])
+        return fin_list
+    else:
+        print ("must have an even number of players")
 
 
 
